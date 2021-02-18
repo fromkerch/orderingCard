@@ -11,6 +11,8 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
+import static java.time.Duration.ofSeconds;
+
 
 class cardOrder {
     @Test
@@ -27,10 +29,9 @@ class cardOrder {
         $("[data-test-id=phone] input").setValue("+79789919990");
         $("[data-test-id=agreement]").click();
         $$("button").find(exactText("Забронировать")).click();
-
-        $("[data-test-id=notification]")
-                .$(withText("Встреча успешно забронирована"))
-                .waitUntil(visible, 15000);
-
+        $("[data-test-id=notification] .notification__content")
+                .waitUntil(visible, 15000)
+                .shouldHave(exactText("Встреча успешно забронирована на " + dateMeeting));
+        
     }
 }
